@@ -53,10 +53,39 @@ export default {
     }
   },
   methods: {
-    onLogin(e) {
-      e.preventDefault()
-      console.log(e)
-      return
+    makeToast() {
+      this.$bvToast.toast('Error al ingresar al sistema', {
+        title: `Error`,
+        variant: 'danger', 
+        toaster: 'b-toaster-top-center',
+        solid: true
+      })
+    },
+    async onLogin(e) {
+      try {
+        e.preventDefault()
+
+        const loginData = {
+          rut: this.rut,
+          password: this.password
+        }
+        
+        const data = await this.axios.post('/api/login', loginData)
+
+        if(data.status == 200) {
+          console.log('exito', data)
+          this.router.push('/')
+          return
+        }
+        
+        this.makeToast()
+
+        return
+
+      } catch (error) {
+        console.log('err', error)
+        this.makeToast()
+      }
     }
   }
 }
