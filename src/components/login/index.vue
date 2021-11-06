@@ -78,8 +78,9 @@ export default {
             localStorage.setItem('token', token)
           }
           const userInfo = jwt_decode(token);
-          console.log('exito', userInfo)
+
           await this.$store.dispatch('setUserInfo', userInfo)
+          
           this.$router.push('/')
           return;
         }

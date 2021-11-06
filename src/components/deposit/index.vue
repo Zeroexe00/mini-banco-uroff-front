@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <b-form @submit="onRecharge">
       <b-form-group
           id="input-group-1"
@@ -37,28 +37,42 @@ export default {
         return 
       }
     },
-    state() {
-      return this.amount > 0
+    getUser() {
+      return this.$store.state.user
     },
-    invalidFeedback() {
-      if (this.amount === 0) {
-        return ''
-      }
-      return 'Ingresa un monto valido'
-    }
   },
   methods: {
+    makeToast(variant,msg,title) {
+      this.$bvToast.toast(msg, {
+        title: title,
+        variant: variant, 
+        toaster: 'b-toaster-top-center',
+        solid: true
+      })
+    },
     async onRecharge(e) {
       try {
         e.preventDefault()
+        const amount = parseInt(this.amount)
+        if(!amount || amount <= 0) {
+          this.makeToast('danger','Error al depositar el monto','Error')
+        }
+        const {data: { sucess, updateUser }} = await this.axios.post('/api/deposit',{ rut: this.getUser.rut , amount: amount})
+        this.makeToast('success','Exito al depositar.','Exito')
+        console.log(sucess, updateUser)
       } catch (error) {
+        this.makeToast('danger','Error al depositar el monto','Error')
         console.log(error)
       }
     }
+  },
+  async mounted() {
+    await this.$store.dispatch('getUserInfo')
   }
 }
 </script>
 
-<style>
-
+<style lang="scss">
+@import "bootstrap/scss/bootstrap.scss";
+@import "bootstrap-vue/src/index.scss";
 </style>

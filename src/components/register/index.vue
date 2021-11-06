@@ -89,10 +89,10 @@ export default {
     }
   },
   methods:{
-    makeToast() {
-      this.$bvToast.toast('Error al registrar usuario y/o ya existe.', {
-        title: `Error`,
-        variant: 'danger', 
+    makeToast(variant,msg,title) {
+      this.$bvToast.toast(msg, {
+        title: title,
+        variant: variant, 
         toaster: 'b-toaster-top-center',
         solid: true
       })
@@ -112,15 +112,18 @@ export default {
         const { data, ...response } = await this.axios.post('/api/register', user)
   
         if(response.status !== 200) {
-          this.makeToast();
+          this.makeToast('danger','Error al registrar usuario y/o ya existe.','Error');
           console.log(data)
           return
         }
-  
+        
+        this.makeToast('success','Exito al crear usuario','Exito');
         console.log('exito', data)
+        this.$router.push('/')
         return
+        
       } catch (error) {
-        this.makeToast();
+        this.makeToast('danger','Error al registrar usuario y/o ya existe.','Error');
         console.log('error', error)
       }
       

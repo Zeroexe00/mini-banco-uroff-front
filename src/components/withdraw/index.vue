@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-form @submit="onRecharge">
+  <div class="container">
+    <b-form @submit="onWithdraw">
       <b-form-group
           id="input-group-1"
           label="Monto:"
@@ -36,20 +36,51 @@ export default {
         this.amount = this.$options.filters.toCurrency(val)
         return 
       }
+    },
+    getUser() {
+      return this.$store.state.user
     }
   },
   methods: {
+    makeToast(variant,msg,title) {
+      this.$bvToast.toast(msg, {
+        title: title,
+        variant: variant, 
+        toaster: 'b-toaster-top-center',
+        solid: true
+      })
+    },
     async onWithdraw(e) {
       try {
         e.preventDefault()
+        const amount = parseInt(this.amount)
+        if(!amount || amount <= 0) {
+          this.makeToast('danger','Error al retirar monto','Error')
+          return
+        }
+
+        const {data: {sucess, updatedUser}} = await this.axios.post('/api/withdraw',{rut: this.getUser.rut , amount: amount})
+
+        if(sucess) {
+          console.log(sucess,updatedUser)
+          this.makeToast('success','Exito al retirar monto','Exito')
+        }else {
+          this.makeToast('danger','Error al retirar monto','Error')
+        }
+
       } catch (error) {
+        this.makeToast('danger','Error al retirar monto','Error')
         console.log(error)
       }
     }
+  },
+  async mounted() {
+    await this.$store.dispatch('getUserInfo')
   }
 }
 </script>
 
-<style>
-
+<style lang="scss">
+@import "bootstrap/scss/bootstrap.scss";
+@import "bootstrap-vue/src/index.scss";
 </style>

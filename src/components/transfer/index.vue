@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <h1>Transferencia de Saldo</h1>
-    <b-form @submit="onRecharge">
+    <p>Ingresa los datos de la cuenta a la que deseas transferir saldo.</p>
+    <b-form @submit="onTransfer">
       <b-form-group
           id="input-group-1"
           label="Rut:"
@@ -54,6 +55,25 @@ export default {
       amount: '',
       email: ''
     }
+  },
+  computed: {
+    getUser() {
+      return this.$store.state.user
+    }
+  },
+  methods: {
+    async onTransfer(e) {
+      try {
+        e.preventDefault()
+        const data = await this.axios.post('/api/transfer',{ rutSender: this.getUser.rut, rutReceiver: this.rut,amount: this.amount,email: this.email })
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  },
+  async mounted() {
+    await this.$store.dispatch('getUserInfo')
   }
 }
 </script>
