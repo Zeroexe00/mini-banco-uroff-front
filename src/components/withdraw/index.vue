@@ -32,7 +32,6 @@ export default {
         return this.amount
       },
       set(val) {
-        console.log(val,typeof val)
         this.amount = this.$options.filters.toCurrency(val)
         return 
       }
@@ -62,7 +61,6 @@ export default {
         const {data: {sucess, updatedUser}} = await this.axios.post('/api/withdraw',{rut: this.getUser.rut , amount: amount})
 
         if(sucess) {
-          console.log(sucess,updatedUser)
           this.makeToast('success','Exito al retirar monto','Exito')
         }else {
           this.makeToast('danger','Error al retirar monto','Error')

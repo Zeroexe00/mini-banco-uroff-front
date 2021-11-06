@@ -32,7 +32,6 @@ export default {
         return this.amount
       },
       set(val) {
-        console.log(val,typeof val)
         this.amount = this.$options.filters.toCurrency(val)
         return 
       }
@@ -59,7 +58,6 @@ export default {
         }
         const {data: { sucess, updateUser }} = await this.axios.post('/api/deposit',{ rut: this.getUser.rut , amount: amount})
         this.makeToast('success','Exito al depositar.','Exito')
-        console.log(sucess, updateUser)
       } catch (error) {
         this.makeToast('danger','Error al depositar el monto','Error')
         console.log(error)

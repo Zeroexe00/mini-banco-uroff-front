@@ -113,15 +113,13 @@ export default {
   
         if(response.status !== 200) {
           this.makeToast('danger','Error al registrar usuario y/o ya existe.','Error');
-          console.log(data)
           return
         }
         
         this.makeToast('success','Exito al crear usuario','Exito');
-        console.log('exito', data)
         this.$router.push('/')
         return
-        
+
       } catch (error) {
         this.makeToast('danger','Error al registrar usuario y/o ya existe.','Error');
         console.log('error', error)

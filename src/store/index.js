@@ -23,7 +23,6 @@ export default new Vuex.Store({
         let userInfo;
         if(typeof window === 'object') {
           userInfo = jwt_decode(localStorage.getItem('token'))
-          console.log(userInfo)
         }
         commit('setUserState',userInfo)
         resolve()
