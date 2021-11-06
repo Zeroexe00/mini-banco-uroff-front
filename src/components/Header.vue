@@ -1,5 +1,5 @@
 <template>
-  <nav class="main-header">
+  <nav class="main-header mb-3">
     <b-container class="d-flex w-100 h-100">
       <b-row class="justify-content-md-end align-items-md-center w-100">
         <b-col cols="12" md="2">
@@ -11,6 +11,15 @@
         <b-col cols="12" md="2">
           <router-link to="/login">Mi Cuenta</router-link>
         </b-col>
+        <!-- <b-col cols="12" md="2">
+          <router-link to="/transferir">Transferencia</router-link>
+        </b-col>
+        <b-col cols="12" md="2">
+          <router-link to="/retirar">Retirar</router-link>
+        </b-col>
+        <b-col cols="12" md="2">
+          <router-link to="/depositar">Depositar/Recarga de saldo</router-link>
+        </b-col> -->
       </b-row>
     </b-container>
   </nav>

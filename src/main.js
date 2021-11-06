@@ -7,7 +7,7 @@ import router from './router'
 import store from './store'
 import Axios from 'axios'
 import VueAxios from 'vue-axios'
-
+import { toCurrency } from './filters'
 
 const axios = Axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL,
@@ -15,6 +15,8 @@ const axios = Axios.create({
 });
 
 Vue.use(VueAxios, axios)
+
+Vue.filter('toCurrency', toCurrency)
 
 Vue.config.productionTip = false
 

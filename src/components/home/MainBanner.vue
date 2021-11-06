@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-center">
     <h1>Mini Banco Uroff</h1>
   </div>
 </template>

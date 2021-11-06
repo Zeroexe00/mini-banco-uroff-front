@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex w-100">
-    <b-form @submit="onLogin" class="d-flex flex-column justify-content-start col-md-9 col-12">
+  <div class="container">
+    <b-form @submit="onLogin" class="d-flex flex-column justify-content-start w-100">
         <b-row class="w-100">
           <b-col cols="12" md="6">
            <b-form-group
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import jwt_decode from 'jwt-decode';
 export default {
   data() {
     return {
@@ -70,17 +71,22 @@ export default {
           password: this.password
         }
         
-        const data = await this.axios.post('/api/login', loginData)
+        const { data: { success, token } } = await this.axios.post('/api/login', loginData)
 
-        if(data.status == 200) {
-          console.log('exito', data)
-          this.router.push('/')
-          return
+        if(success) {
+          if(typeof window == 'object') {
+            localStorage.setItem('token', token)
+          }
+          const userInfo = jwt_decode(token);
+          console.log('exito', userInfo)
+          await this.$store.dispatch('setUserInfo', userInfo)
+          this.$router.push('/')
+          return;
         }
         
         this.makeToast()
 
-        return
+        return;
 
       } catch (error) {
         console.log('err', error)
